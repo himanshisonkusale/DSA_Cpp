@@ -1,9 +1,9 @@
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-
+// optimized approach where we are using only one array ans to store the product 
+// my approach - used 3 arrays prefix, suffix and ans to fir cal the left to right and right to left products and multiply to get ans array - TC - o(n)
         int n = nums.size();
-        vector<int> suffix(n);
         vector<int> ans(n);
 
         int product = 1;
