@@ -1,0 +1,36 @@
+class MinStack {
+public:
+    stack<int> st; 
+    stack<int> Minst;
+
+    MinStack() {
+        
+    }
+    
+    void push(int value) {
+        st.push(value);
+        if(Minst.empty() || value <= Minst.top()){
+            Minst.push(value);
+        }
+    }
+    
+    void pop() {
+        if(st.top() == Minst.top()){
+            Minst.pop();
+        }
+        st.pop();
+    }
+    
+    int top() {
+        return st.top();
+    }
+    
+    int getMin() {
+        return Minst.top();
+    }
+
+};
+
+we intialize 2 stack -- stack implementation does not means we have to implement the real stack 
+1 stack for real values and Minstack to store the minimum value 
+and then compare and get the ans 
