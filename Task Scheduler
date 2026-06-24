@@ -1,0 +1,90 @@
+My approach with heap and hashmaps
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int m = tasks.size();
+        unordered_map<char,int> freq; // for counting frequency 
+        unordered_map<char,int> free; // for storing the next seat allocation
+
+        for(int i =0 ;i<m ; i++){
+            freq[tasks[i]]++;
+            free[tasks[i]] = 1;
+        }
+
+        priority_queue<pair<int,char>> pq;
+        for(auto i : freq){
+            pq.push({i.second, i.first});
+        }
+
+        int seat = 1;
+
+        while(!pq.empty()){
+
+            vector<pair<int,char>> pulled;
+
+            while(!pq.empty()){
+
+                pair<int,char> p = pq.top();
+                pq.pop();
+
+                int fr = p.first;
+                char child = p.second;
+
+                if(free[child] <= seat){
+
+                    if(fr > 1){
+                        pq.push({fr-1, child});
+                        free[child] = seat + n + 1;
+                    }
+
+                    break;
+                }
+                else{
+                    pulled.push_back(p);
+                }
+            }
+
+            for(int i = 0; i < pulled.size(); i++){
+                pq.push(pulled[i]);
+            }
+
+            seat++;
+        }
+
+        return seat - 1;
+    }
+};
+
+
+optimized approach with math formula 
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+
+        vector<int> freq(26,0);
+
+        for(char ch : tasks){
+            freq[ch-'A']++;
+        }
+
+        int maxFreq = *max_element(freq.begin(), freq.end());
+
+        int maxFreqTaskCount = 0;
+
+        for(int f : freq){
+            if(f == maxFreq){
+                maxFreqTaskCount++;
+            }
+        }
+
+        int slots = (maxFreq - 1) * (n + 1) + maxFreqTaskCount;
+
+        return max((int)tasks.size(), slots);
+    }
+};
+
+
+explaination of the optimized approach 
+
+
