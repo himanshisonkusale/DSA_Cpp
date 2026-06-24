@@ -1,5 +1,4 @@
 My approach with heap and hashmaps
-
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
