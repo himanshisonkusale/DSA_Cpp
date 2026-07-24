@@ -1,0 +1,28 @@
+class Solution {
+  public:
+  int fun(vector<int>&val, vector<int> &wt, int W, vector<vector<int>>&dp, int n, int i ){
+      if(i==n)return 0;
+      if(dp[i][W] != -1){
+          return dp[i][W];
+      }
+      if(wt[i] > W) return dp[i][W] = fun(val,wt,W,dp,n,i+1);
+      
+      int yes = val[i] + fun(val,wt,W-wt[i],dp,n,i+1);
+      int no = fun(val,wt,W,dp,n,i+1);
+      int ans = max(yes,no);
+      dp[i][W] = ans;
+      
+      return ans;
+  }
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        
+        int n = val.size();
+        vector<vector<int>>dp(n);
+        for(int i=0 ;i <n; i++){
+            vector<int> t (W+1,-1);
+            dp[i] = t;
+        }
+        
+        return fun(val,wt,W,dp,n,0);
+    }
+};
