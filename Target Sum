@@ -1,0 +1,38 @@
+class Solution {
+public:
+int fun(vector<int>& nums, int n, int i, int target, int sum, vector<vector<int>>& dp) {
+
+        if(i == n) {
+            return (sum == 0);
+        }
+
+        if(dp[i][sum] != -1)
+            return dp[i][sum];
+
+        if(nums[i] > sum)
+            return dp[i][sum] = fun(nums, n, i + 1, target, sum, dp);
+
+        int c1 = fun(nums, n, i + 1, target, sum - nums[i], dp);
+        int c2 = fun(nums, n, i + 1, target, sum, dp);
+
+        return dp[i][sum] = c1 + c2;
+    }
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+
+        int n = nums.size();
+        int sum = 0;
+
+        for(int x : nums)
+            sum += x;
+
+        if(sum < abs(target) || (sum + target) % 2 != 0)
+            return 0;
+
+        sum = (sum + target) / 2;
+
+        vector<vector<int>> dp(n, vector<int>(sum + 1, -1));
+
+        return fun(nums, n, 0, target, sum, dp);
+    }
+};
