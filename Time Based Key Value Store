@@ -1,0 +1,45 @@
+class TimeMap {
+public:
+unordered_map<string, vector<pair<int,string>>> f;
+    TimeMap() {
+    }
+    
+    void set(string key, string value, int timestamp) {
+        f[key].push_back({timestamp,value}); // (foo , key->value = bar, timestamp) // update 
+    }
+    
+    string get(string key, int timestamp) {
+        vector<pair<int,string>> &v = f[key]; // (timestamp , value) to comapre 
+
+        int low = 0;
+        int high = v.size() -1; // we will find in the vector v to comapre the timestamp and get the value
+        string ans = "";
+
+        while(low <= high){
+            int mid = low +( high - low ) /2;
+
+            if(v[mid].first <= timestamp) {// if my vector store time is less than my timestamp that is been asked 
+
+            ans = v[mid].second; // value of that time
+            low = mid +1; // to find more big time stamp
+
+            }
+
+            else{
+            high = mid -1;
+        }
+
+        }
+
+        return ans;
+       
+       
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
