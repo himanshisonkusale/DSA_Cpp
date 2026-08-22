@@ -1,0 +1,31 @@
+class Solution {
+public:
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        int n = val.size();
+
+        vector<pair<double, int>> ratio;
+
+        for(int i = 0; i < n; i++) {
+            ratio.push_back({(double)val[i] / wt[i], i});
+        }
+
+        sort(ratio.rbegin(), ratio.rend());
+
+        double ans = 0;
+
+        for(int i = 0; i < n; i++) {
+            int index = ratio[i].second;
+
+            if(wt[index] <= capacity) {
+                ans += val[index];
+                capacity -= wt[index];
+            }
+            else {
+                ans += (double)val[index] / wt[index] * capacity;
+                break;
+            }
+        }
+
+        return ans;
+    }
+};
